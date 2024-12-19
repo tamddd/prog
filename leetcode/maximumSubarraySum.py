@@ -14,6 +14,12 @@ class Solution:
             if (v+k) in numPositions:
                 pi = numPositions[v+k]
                 res = max(res, prefix[i+1] - prefix[pi])
+            
+            """
+            どこから採用したらいいかを見極めたい。
+            よくある、累積和を最大にする問題と同じ。
+            それまでの累積和と今見てる数字を比較したら良い
+            """
             if v in numPositions and prefix[i+1] - prefix[numPositions[v]] < nums[i]:
                 numPositions[v] = i
             if v not in numPositions:
