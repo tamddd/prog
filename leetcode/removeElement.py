@@ -10,3 +10,14 @@ class Solution:
                 cnt += 1
             right += 1
         return cnt
+
+    def removeElement2(self, nums: List[int], val: int) -> int:
+        nonTargetIdx = targetIdx = 0
+        res = 0
+
+        while targetIdx < len(nums):
+            if nums[targetIdx] == val:
+                nums[nonTargetIdx], nums[targetIdx] = nums[targetIdx], nums[nonTargetIdx]
+                nonTargetIdx += 1
+            targetIdx += 1
+        return targetIdx - nonTargetIdx
