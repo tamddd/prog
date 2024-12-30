@@ -14,14 +14,14 @@ object List {
         case Cons(x, xs) => x * product(xs)
     }
 
-    def apply[A](as: List[A]): List[A] = {
+    def apply[A](as: A*): List[A] = {
         if (as.isEmpty) Nil
         else Cons(as.head, apply(as.tail: _*))
     }
 
     def tail[A](as: List[A]): List[A] = {
         as match {
-            case head :: next => next
+            case Cons(head, next) => next
             case _ => Nil
         }
     }
@@ -30,6 +30,23 @@ object List {
         as match {
             case Cons(_, tail) => Cons(head, tail)
             case _ => Cons(head, Nil)
+        }
+    }
+
+    def drop[A](as: List[A], dropCount: Int) : List[A] = {
+        if (dropCount < 0) as 
+        else {
+            as match
+                case Nil => Nil
+                case Cons(_, tail) => drop(tail, dropCount -1)
+        }
+    }
+
+    def dropWhile[A](l: List[A], f: A => Boolean) : List[A] = {
+        l match {
+            case Nil => Nil
+            case Cons(head, tail) if (f(head)) => dropWhile(tail, f)
+            case _ => l
         }
     }
     def main(args : Array[String]) : Unit = {
