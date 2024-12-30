@@ -9,10 +9,16 @@ object Tree {
             case _ => 1
     }
 
+    def maximum(it: Tree[Int]) : Int = {
+        it match
+            case Branch(left, right) => maximum(left).max(maximum(right))
+            case Leaf(x) => x
+    }
+
 
     def main(args : Array[String]) : Unit = {
-        val f = Branch(Branch(Leaf("a"), Leaf("B")),
-        Branch(Leaf("c"), Leaf("d")))
-        println(size(f))
+        val f = Branch(Branch(Leaf(123), Leaf(32)),
+        Branch(Leaf(-12), Leaf(2)))
+        println(maximum(f))
     }
 }
