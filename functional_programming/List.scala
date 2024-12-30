@@ -79,24 +79,62 @@ object List {
     }
 
     def length2[A](as: List[A]) = 
-        foldLeft(as, 0)((acc, _) => 1 + acc)
+        foldLeft(as, 0)((acc, _) => acc + 1)
+
+    def sum3(is: List[Int]) = 
+        foldLeft(is, 0)((acc, xs) => acc + xs)
 
     def reverse[A](as: List[A]) =
         foldLeft(as, Nil)((acc, x) => Cons(x, acc))
 
     def flatten[A](as: List[List[A]]) : List[A] = {
+        //asはListのList appendはxにxsを追加する。
         foldLeft(as, Nil)((x, xs) => append(x, xs))
     }
 
+    def addOneList(is: List[Int]) : List[Int] = {
+        is match
+            case Nil => Nil
+            case Cons(head, tail) => Cons(head+1, addOneList(tail))
+    }
+
+    def myMap[A, B](as: List[A])(f: (A => B)) : List[B] = {
+        as match
+            case Nil => Nil
+            case Cons(head, tail) => Cons(f(head), myMap(tail)(f))
+    }
+
+    def dtoStrList(ds: List[Double]) : List[String] =
+        myMap(ds)(_.toString)
+
+    def filter[A](as: List[A])(f: A => Boolean) : List[A] = {
+        as match
+            case Nil => Nil
+            case Cons(head, tail) => if f(head) then Cons(head, filter(tail)(f)) else filter(tail)(f)
+    }
+
+    def filterEven(is: List[Int]) = 
+        filter(is)((num) => num % 2 == 0)
+
+    def flatMap[A, B](as: List[A])(f: A => List[B]) : List[B] = {
+        as match
+            case Nil => Nil
+            case Cons(head, tail) => append(f(head), flatMap(tail)(f))
+    }
+
+    def addList(is1: List[Int], is2: List[Int]) : List[Int] = {
+        (is1, is2) match
+            case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1+h2, addList(t1, t2))
+            case _ => Nil
+    }
+
+    def zipWith[A, B](as1: List[A], as2: List[A])(f: (A, A) => B) : List[B] = {
+        (as1, as2) match
+            case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
+            case _ => Nil
+    }
+
     def main(args : Array[String]) : Unit = {
-        val x = List(1, 2, 3, 4, 5) match {
-        case Cons(x, Cons(2, Cons(4, _))) => x
-        case Nil => 42
-        //ここに引っかかる
-        case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
-        case Cons(h, t) => h + sum(t)
-        case _ => 101
-        }
-        println(x)
+        println(flatMap(List(1, 2, 3))(i => List(i, i)))
     }
 }
