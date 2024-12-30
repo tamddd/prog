@@ -49,6 +49,14 @@ object List {
             case _ => l
         }
     }
+
+    //a1が尽きるまで値をコピーする　
+    def append[A](a1: List[A], a2: List[A]) : List[A] = {
+        a1 match {
+            case Nil => a2
+            case Cons(head, tail) => Cond(head, append(tail, a2))
+        }
+    }
     def main(args : Array[String]) : Unit = {
         val x = List(1, 2, 3, 4, 5) match {
         case Cons(x, Cons(2, Cons(4, _))) => x
