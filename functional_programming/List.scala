@@ -25,6 +25,13 @@ object List {
             case _ => Nil
         }
     }
+
+    def setHead[A](as: List[A], head: A) : List[A] = {
+        as match {
+            case Cons(_, tail) => Cons(head, tail)
+            case _ => Cons(head, Nil)
+        }
+    }
     def main(args : Array[String]) : Unit = {
         val x = List(1, 2, 3, 4, 5) match {
         case Cons(x, Cons(2, Cons(4, _))) => x
