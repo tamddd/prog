@@ -14,10 +14,26 @@ object List {
         case Cons(x, xs) => x * product(xs)
     }
 
-    def apply[A](as: A*): List[A] = {
+    def apply[A](as: List[A]): List[A] = {
         if (as.isEmpty) Nil
         else Cons(as.head, apply(as.tail: _*))
     }
-}
 
-val f = Cons(123, Nil)
+    def tail[A](as: List[A]): List[A] = {
+        as match {
+            case head :: next => next
+            case _ => Nil
+        }
+    }
+    def main(args : Array[String]) : Unit = {
+        val x = List(1, 2, 3, 4, 5) match {
+        case Cons(x, Cons(2, Cons(4, _))) => x
+        case Nil => 42
+        //ここに引っかかる
+        case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
+        case Cons(h, t) => h + sum(t)
+        case _ => 101
+        }
+        println(x)
+    }
+}
