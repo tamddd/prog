@@ -54,9 +54,40 @@ object List {
     def append[A](a1: List[A], a2: List[A]) : List[A] = {
         a1 match {
             case Nil => a2
-            case Cons(head, tail) => Cond(head, append(tail, a2))
+            case Cons(head, tail) => Cons(head, append(tail, a2))
         }
     }
+
+    def foldRight[A, B](as: List[A], z:B)(f: (A, B) => B) : B = {
+        as match
+            case Nil => z
+            case Cons(head, tail) => f(head, foldRight(tail, z)(f))
+        
+    }
+
+    def length[A](as: List[A]) =
+        foldRight(as, 0)((_, xs) => 1 + xs)
+
+    def sum2(ns: List[Int]) = 
+        foldRight(ns, 0)((x, y) => x + y)
+
+    def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B) : B = {
+        as match {
+            case Nil => z
+            case Cons(head, tail) => foldLeft(tail, f(z, head))(f)
+        }
+    }
+
+    def length2[A](as: List[A]) = 
+        foldLeft(as, 0)((acc, _) => 1 + acc)
+
+    def reverse[A](as: List[A]) =
+        foldLeft(as, Nil)((acc, x) => Cons(x, acc))
+
+    def flatten[A](as: List[List[A]]) : List[A] = {
+        foldLeft(as, Nil)((x, xs) => append(x, xs))
+    }
+
     def main(args : Array[String]) : Unit = {
         val x = List(1, 2, 3, 4, 5) match {
         case Cons(x, Cons(2, Cons(4, _))) => x
