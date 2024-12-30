@@ -15,10 +15,17 @@ object Tree {
             case Leaf(x) => x
     }
 
+    def map[A, B](at: Tree[A])(f: (A => B)) : Tree[B] = {
+        at match
+            case Leaf(x) => Leaf(f(x))
+            case Branch(left, right) => Branch(map(left)(f), map(right)(f))
+        
+    }
+
 
     def main(args : Array[String]) : Unit = {
         val f = Branch(Branch(Leaf(123), Leaf(32)),
         Branch(Leaf(-12), Leaf(2)))
-        println(maximum(f))
+        println(maximum(map(f)(x => x * 123)))
     }
 }
