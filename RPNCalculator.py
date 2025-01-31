@@ -2,7 +2,6 @@ import sys
 
 operators = {"+", "-", "*", "/"}
 
-i = 0
 def skip_space():
     global i, expression
     while i < len(expression) and expression[i] == " ":
@@ -37,8 +36,17 @@ def eval():
             elif ope == "*":
                 return left * right
             elif ope == "/":
-                return left / right
+                return left // right
 
 if __name__ == "__main__":
-    expression = " ".join(sys.argv[1:])
-    print(eval())
+    i = 0
+    expression = "+ 1 1"
+    assert 2 == eval()
+    
+    i = 0
+    expression = "* 1 1"
+    assert 1 == eval()
+
+    i = 0
+    expression = "* + 10 10 10"
+    assert 200 == eval()
