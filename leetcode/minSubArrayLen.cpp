@@ -1,23 +1,22 @@
 class Solution {
 public:
-    int minSubArrayLen(long long target, vector<int>& nums) {
-	  const long long INF = 2 << 20;
-	  long long tot = nums[0];
-	  int slow = 0;
-	  int res = INF;
-	  if (tot >= target) res = 1;
-	  int fast = 1;
+    int minSubArrayLen(int target, vector<int>& nums) {
+	  int left = 0;
+	  int total = 0;
+      const int init = 1001001001;
+	  int res = init;
 
-	  while (fast < nums.size()){
-		while (tot < target && fast < nums.size()){
-		  tot += nums[fast++];
-		}
+	  for (int right = 0; right < nums.size(); right++){
+		total += nums[right];
 
-		while (tot >= target && slow < fast){
-		  res = min(res, fast - slow);
-		  tot -= nums[slow++];
-		}
+		while (target <= total) {
+			res = min(res, right - left + 1);
+			total -= nums[left++];
+		  }
 	  }
-	  return (res == INF) ? 0 : res;
+	  if (res == init) {
+		  return 0;
+		}
+	  return res;
     }
 };
