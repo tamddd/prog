@@ -1,3 +1,5 @@
+import csv
+
 class sudokuSolver:
     def __init__(self):
         self.width = 9
@@ -39,7 +41,7 @@ class sudokuSolver:
                 return False
             vis.add(num)
 
-        #3*3 左上、を求めたい
+        #3*3 左上、を求メル
         ry = (y // 3) * 3
         rx = (x // 3) * 3
         vis = set()
@@ -56,8 +58,16 @@ class sudokuSolver:
         for i in self.board:
             print(*i)
 
+    def input_csv_board(self, csv_file_name):
+        with open(csv_file_name, mode="r") as csv_file:
+            reader = csv.reader(csv_file)
+            self.board = []
+            for row in reader:
+                self.board.append(list(map(int, row)))
+
 def main():
     ssol = sudokuSolver()
+    ssol.input_csv_board("sudoku_input.csv")
     ssol.solve()
     ssol.show()
 
